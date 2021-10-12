@@ -1,8 +1,8 @@
 # Features
 [ ] Options Menu
-	[/] Set order
+	[x] Set order
 		[x] Random
-		[ ] Order added
+		[x] Order added
 	[x] Time to show
 	[x] Time inbetween
 	[x] Play tone after each rep
@@ -16,7 +16,7 @@
 	[x] Pause/Play
 	[x] Stop
 	[ ] Next
-	[ ] Do not repeat
+	[x] Do not repeat
 	[x] Display reps done out of reps total
 [ ] Image List
 	[x] Loading bar

@@ -4,6 +4,10 @@ export (PackedScene) var Img
 
 var ImageList
 var images = PoolStringArray()
+var images_done = []
+
+var play_tone = false
+var order_random = true
 
 var max_reps = 20
 var reps = 0
@@ -82,7 +86,13 @@ func _on_Shown_timeout():
 	$Viewer/Inbetween.start()
 
 func _on_Inbetween_timeout():
-	var i = randi() % ImageList.get_child_count()
+	var i = 0
+	if order_random:
+		while images_done.has(i):
+			i = randi() % ImageList.get_child_count()
+	else:
+		i = reps
+	images_done.append(i)
 	if $Viewer.get_node("ImageContainer/Image"):
 		$Viewer.get_node("ImageContainer/Image").queue_free()
 	var dupe = ImageList.get_child(i).duplicate()
