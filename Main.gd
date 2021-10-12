@@ -89,6 +89,8 @@ func _on_Inbetween_timeout():
 	dupe.name = "Image"
 	dupe.set_position(Vector2(0, 0))
 	dupe.set_size($MarginContainer.rect_size)
+	if play_tone:
+		$ImageTone.play()
 	$Viewer/ImageContainer.add_child(dupe)
 	if reps != max_reps:
 		reps += 1
@@ -132,4 +134,9 @@ func _on_PlayPause_toggled(pause):
 	else:
 		$Viewer/Shown.paused = false
 		$Viewer/Inbetween.paused = false
-	
+
+func _on_ToneRep_toggled(play):
+	play_tone = play
+
+func _on_RandomOrder_toggled(order):
+	order_random = order

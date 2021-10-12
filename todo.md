@@ -5,8 +5,8 @@
 		[ ] Order added
 	[x] Time to show
 	[x] Time inbetween
-	[ ] Play tone after each rep
-		[ ] Make sound
+	[x] Play tone after each rep
+		[x] Make sound
 	[ ] Timer tick
 	[x] Reps
 	[x] Tool tips
