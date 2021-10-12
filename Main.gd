@@ -88,6 +88,7 @@ func _on_Shown_timeout():
 func _on_Inbetween_timeout():
 	var i = 0
 	if order_random:
+		i = randi() % ImageList.get_child_count()
 		while images_done.has(i):
 			i = randi() % ImageList.get_child_count()
 	else:
@@ -124,6 +125,7 @@ func _on_StartPractice_button_up():
 		if $Viewer.get_node("ImageContainer/Image"):
 			$Viewer.get_node("ImageContainer/Image").queue_free()
 		reps = 0
+		images_done = []
 		$Viewer.visible = true
 		$Viewer/Inbetween.start()
 
