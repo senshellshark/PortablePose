@@ -6,28 +6,53 @@ var ImageList
 var images = PoolStringArray()
 var images_done = []
 
-var play_tone = false
-var order_random = true
+var options = Options.new()
 
-var max_reps = 20
 var reps = 0
 
 var image_loading_queue = []
 
 func _ready():
 	resize()
+	get_tree().connect("files_dropped", self, "_on_files_dropped")
 	get_tree().get_root().connect("size_changed", self, "resize")
 	$ImageLoading.visible = false
 	$Viewer.visible = false
 	$Settings.visible = false
+	if ResourceLoader.exists('user://last_options.res'):
+		options = ResourceLoader.load('user://last_options.res')
+		if options is Options:
+			load_options()
 
 func _process(delta):
 	if Input.is_action_just_pressed("back"):
 		close_viewer()
 
+func load_options():
+	$FileDialog.current_dir = options.current_dir
+	print(options.current_dir)
+	$Viewer/Shown.wait_time = options.shown
+	$Viewer/Inbetween.wait_time = options.in_between
+	$Settings/MarginContainer/VBoxContainer/RandomOrder.pressed = options.order_random
+	$Settings/MarginContainer/VBoxContainer/ToneRep.pressed = options.play_tone
+	$Settings/MarginContainer/VBoxContainer/HBoxContainer/Shown.text = str(options.shown)
+	$Settings/MarginContainer/VBoxContainer/HBoxContainer2/Inbetween.text = str(options.in_between)
+	$Settings/MarginContainer/VBoxContainer/HBoxContainer3/Reps.text = str(options.max_reps)
+
+func save_options():
+	ResourceSaver.save('user://last_options.res', options)
+
 func resize():
 	if $Viewer.get_node("ImageContainer/Image"):
 		$Viewer.get_node("ImageContainer/Image").set_size($MarginContainer.rect_size)
+
+func _on_files_dropped(paths, screen):
+	$ImageLoading.visible = true
+	$ImageLoading.bar.max_value = paths.size()
+	$ImageLoading.bar.value = 0
+	$MarginContainer/VBoxContainer/ScrollContainer/DragDrop.visible = false
+	image_loading_queue.append_array(paths)
+	$Load.start()
 
 func _on_AddImage_button_up():
 	$FileDialog.popup()
@@ -53,17 +78,23 @@ func _on_Load_timeout():
 		$ImageLoading/Close.start()
 
 func _on_FileDialog_files_selected(paths):
+	options.current_dir = $FileDialog.current_dir
+	save_options()
 	$ImageLoading.visible = true
 	$ImageLoading.bar.max_value = paths.size()
 	$ImageLoading.bar.value = 0
 	image_loading_queue.append_array(paths)
+	$MarginContainer/VBoxContainer/ScrollContainer/DragDrop.visible = false
 	$Load.start()
 
 func _on_FileDialog_file_selected(path):
+	options.current_dir = $FileDialog.current_dir
+	save_options()
 	$ImageLoading.visible = true
 	$ImageLoading.bar.max_value = 1
 	$ImageLoading.bar.value = 0
 	image_loading_queue.append(path)
+	$MarginContainer/VBoxContainer/ScrollContainer/DragDrop.visible = false
 	$Load.start()
 
 func _on_ImageList_ready():
@@ -73,6 +104,7 @@ func _on_Settings_button_up():
 	$Settings.visible = true
 
 func _on_SettingsBack_button_up():
+	save_options()
 	$Settings.visible = false
 
 func _on_Clear_button_up():
@@ -87,7 +119,7 @@ func _on_Shown_timeout():
 
 func _on_Inbetween_timeout():
 	var i = 0
-	if order_random:
+	if options.order_random:
 		i = randi() % ImageList.get_child_count()
 		while images_done.has(i):
 			i = randi() % ImageList.get_child_count()
@@ -100,26 +132,28 @@ func _on_Inbetween_timeout():
 	dupe.name = "Image"
 	dupe.set_position(Vector2(0, 0))
 	dupe.set_size($MarginContainer.rect_size)
-	if play_tone:
+	if options.play_tone:
 		$ImageTone.play()
 	$Viewer/ImageContainer.add_child(dupe)
-	if reps != max_reps:
+	if reps != options.max_reps:
 		reps += 1
 		$Viewer/Shown.start()
 	else:
 		$Viewer.visible = false
 
 func _on_Shown_text_changed(new_text):
+	options.shown = int(new_text)
 	$Viewer/Shown.wait_time = int(new_text)
 
 func _on_Inbetween_text_changed(new_text):
+	options.in_between = int(new_text)
 	$Viewer/Inbetween.wait_time = int(new_text)
 
 func _on_Reps_text_changed(new_text):
-	max_reps = int(new_text)
+	options.max_reps = int(new_text)
 
 func _on_StartPractice_button_up():
-	if max_reps < 1:
+	if options.max_reps < 1:
 		return
 	if ImageList.get_child_count() > 0:
 		if $Viewer.get_node("ImageContainer/Image"):
@@ -136,7 +170,7 @@ func close_viewer():
 	$Viewer/Inbetween.stop()
 	$Viewer.visible = false
 
-func _on_Back_button_up():
+func _on_Stop_button_up():
 	close_viewer()
 
 func _on_PlayPause_toggled(pause):
@@ -148,7 +182,7 @@ func _on_PlayPause_toggled(pause):
 		$Viewer/Inbetween.paused = false
 
 func _on_ToneRep_toggled(play):
-	play_tone = play
+	options.play_tone = play
 
 func _on_RandomOrder_toggled(order):
-	order_random = order
+	options.order_random = order

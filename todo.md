@@ -11,10 +11,12 @@
 	- [x] Reps
 	- [x] Tool tips
 	- [x] Fix text highlight color
+	- [ ] Classroom mode
 - [ ] Practice Mode
 	- [x] Slideshow images in full on window
 	- [x] Pause/Play
 	- [x] Stop
+	- [ ] Previous
 	- [ ] Next
 	- [x] Do not repeat
 	- [x] Display reps done out of reps total
@@ -23,8 +25,9 @@
 		- [x] File loading queue
 		- [ ] Show file name instead of full path
 	- [ ] Remove individual images
-- [ ] Memory
-	- [ ] Remember Options
-	- [ ] Remember last directory
+	- [ ] Image preview
+- [x] Memory
+	- [x] Remember Options
+	- [x] Remember last directory
 
 # Bugs

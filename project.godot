@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Resource",
+"class": "Options",
+"language": "GDScript",
+"path": "res://Options.gd"
+} ]
+_global_script_class_icons={
+"Options": ""
+}
+
 [application]
 
 config/name="Portable Pose"
