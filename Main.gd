@@ -19,6 +19,7 @@ func _ready():
 	$ImageLoading.visible = false
 	$Viewer.visible = false
 	$Settings.visible = false
+	$Preview.visible = false
 	if ResourceLoader.exists('user://last_options.res'):
 		options = ResourceLoader.load('user://last_options.res')
 		if options is Options:
@@ -45,6 +46,8 @@ func save_options():
 func resize():
 	if $Viewer.get_node("ImageContainer/Image"):
 		$Viewer.get_node("ImageContainer/Image").set_size($MarginContainer.rect_size)
+	if $Preview/ColorRect.get_node("ImageContainer/Image"):
+		$Preview/ColorRect.get_node("ImageContainer/Image").set_size($MarginContainer.rect_size)
 
 func _on_files_dropped(paths, screen):
 	$ImageLoading.visible = true
@@ -130,6 +133,7 @@ func _on_Inbetween_timeout():
 		$Viewer.get_node("ImageContainer/Image").queue_free()
 	var dupe = ImageList.get_child(i).duplicate()
 	dupe.name = "Image"
+	dupe.is_dupe = true
 	dupe.set_position(Vector2(0, 0))
 	dupe.set_size($MarginContainer.rect_size)
 	if options.play_tone:
@@ -186,3 +190,19 @@ func _on_ToneRep_toggled(play):
 
 func _on_RandomOrder_toggled(order):
 	options.order_random = order
+
+func _on_StopPreview_button_up():
+	if $Preview.get_node("ColorRect/ImageContainer/Image"):
+		$Preview.get_node("ColorRect/ImageContainer/Image").queue_free()
+	$Preview.visible = false
+
+func _on_ImageList_preview_image(image):
+	if $Preview.get_node("ColorRect/ImageContainer/Image"):
+		$Preview.get_node("ColorRect/ImageContainer/Image").queue_free()
+	var dupe = image.duplicate()
+	dupe.name = "Image"
+	dupe.is_dupe = true
+	dupe.set_position(Vector2(0, 0))
+	dupe.set_size($MarginContainer.rect_size)
+	$Preview/ColorRect/ImageContainer.add_child(dupe)
+	$Preview.visible = true

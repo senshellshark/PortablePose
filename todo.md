@@ -25,7 +25,7 @@
 		- [x] File loading queue
 		- [ ] Show file name instead of full path
 	- [ ] Remove individual images
-	- [ ] Image preview
+	- [x] Image preview
 - [x] Memory
 	- [x] Remember Options
 	- [x] Remember last directory
