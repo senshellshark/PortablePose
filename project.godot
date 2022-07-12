@@ -1,0 +1,94 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Resource",
+"class": "Collection",
+"language": "GDScript",
+"path": "res://types/collection.gd"
+}, {
+"base": "Resource",
+"class": "ImageItem",
+"language": "GDScript",
+"path": "res://types/image_item.gd"
+}, {
+"base": "Panel",
+"class": "Loading",
+"language": "GDScript",
+"path": "res://singletons/loading.gd"
+}, {
+"base": "Resource",
+"class": "Options",
+"language": "GDScript",
+"path": "res://types/options.gd"
+}, {
+"base": "Resource",
+"class": "Routine",
+"language": "GDScript",
+"path": "res://types/routine.gd"
+}, {
+"base": "Resource",
+"class": "RoutineStep",
+"language": "GDScript",
+"path": "res://types/routine_step.gd"
+}, {
+"base": "RoutineStep",
+"class": "StepBreak",
+"language": "GDScript",
+"path": "res://types/step_break.gd"
+}, {
+"base": "RoutineStep",
+"class": "StepCollection",
+"language": "GDScript",
+"path": "res://types/step_collection.gd"
+}, {
+"base": "RoutineStep",
+"class": "StepPause",
+"language": "GDScript",
+"path": "res://types/step_pause.gd"
+}, {
+"base": "RoutineStep",
+"class": "StepPractice",
+"language": "GDScript",
+"path": "res://types/step_practice.gd"
+} ]
+_global_script_class_icons={
+"Collection": "",
+"ImageItem": "",
+"Loading": "",
+"Options": "",
+"Routine": "",
+"RoutineStep": "",
+"StepBreak": "",
+"StepCollection": "",
+"StepPause": "",
+"StepPractice": ""
+}
+
+[application]
+
+config/name="Portable Pose"
+run/main_scene="res://Main.tscn"
+boot_splash/fullsize=false
+config/icon="res://icon.png"
+config/windows_native_icon="res://assets/icons/icon.ico"
+
+[autoload]
+
+Global="*res://singletons/global.gd"
+Nodes="*res://singletons/nodes.gd"
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
