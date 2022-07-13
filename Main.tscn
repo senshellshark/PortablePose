@@ -2274,6 +2274,7 @@ anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = SubResource( 350 )
+expand = true
 stretch_mode = 6
 
 [node name="ImageTimer" type="Timer" parent="RoutinePlayer"]

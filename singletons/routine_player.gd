@@ -46,6 +46,7 @@ func play():
 	current_collection = Nodes.references.selected_collection
 	remaining_steps.append_array(Global.routine.routine_steps)
 	print(remaining_steps)
+	$CurrentImage.hide()
 	show()
 	next_step()
 
@@ -91,10 +92,11 @@ func show_image():
 		return
 	if current_collection.references.size() == images_done.size():
 		var last_image_index = images_done.pop_back()
-		images_done = [last_image_index]
+		images_done = []
 	var i = randi() % current_collection.references.size()
-	while images_done.has(i):
-		i = randi() % current_collection.references.size()
+	if images_done.size() > 0:
+		while images_done.has(i):
+			i = randi() % current_collection.references.size()
 	images_done.append(i)
 	$CurrentImage.texture = current_collection.references[i].image_texture
 	$CurrentImage.show()

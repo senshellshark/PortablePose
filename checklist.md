@@ -13,11 +13,11 @@
 		* [x] Remove routine steps
 			* [x] from view
 			* [x] from global routine
-	* [ ] Options
-		* [ ] Load and update_data
+	* [x] Options
+		* [x] Load and update_data
 			* [x] Load collections and routine data
 			* [x] Load collection items into UI
-			* [ ] Load routine items into UI
+			* [x] Load routine items into UI
 		* [x] Save
 			* [x] Embed last routine
 			* [x] Embed last set of collections
